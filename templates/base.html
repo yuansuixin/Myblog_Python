@@ -1,0 +1,147 @@
+ {% load staticfiles %} {% load blog_tags %}
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>马草原的博客</title>
+		<link href="{% static 'blog/css/index.css' %}" rel="stylesheet">
+		<link rel="stylesheet" href="{% static 'blog/css/highlights/github.css' %}">
+		<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+		<!--[if IE 6]>
+ <script  src="js/png.js"></script>
+ <script type="text/javascript">
+    EvPNG.fix('.lace_hd_ft,.emails,.rssdy,.fav');
+ </script>
+<![endif]-->
+		<script src="{% static 'blog/js/modernizr.js' %}"></script>
+		<script src="{% static 'blog/js/png.js' %}"></script>
+		<script src="{% static 'blog/js/silder.js' %}"></script>
+
+		<style type="text/css">
+		.pagination-simple {
+    padding-left: 30px;
+    font-size: 16px;
+}
+
+.pagination ul {
+    list-style: none;
+}
+
+.pagination ul li {
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 5px;
+}
+		</style>
+	</head>
+
+	<body>
+		<figure>
+			<p>
+				<a class="fav" target="_blank" onClick="window.external.addFavorite('http://www.yangqq.com')" title="加入收藏"></a>
+				<a class="rssdy" target="_blank" href="{% url 'rss' %}"  title="rss订阅"></a>
+			</p>
+		</figure>
+		<header>
+			<h1><a href="/">马草原</a></h1>
+			<p>如果没有为陌上悄然伫立并为陌上风情所陶醉的人，那么花开也寂寞,风情也苍白...</p>
+		</header>
+		<!--nav begin-->
+		<div id="nav">
+			<ul>
+				<li>
+					<a href="/">网站首页</a>
+				</li>
+				<li>
+					<a href="/" target="_blank" title="慢生活">慢生活</a>
+				</li>
+				<li>
+					<a href="/" target="_blank" title="技术探讨">技术探讨</a>
+				</li>
+				<li>
+					<a href="/" target="_blank" title="模板下载">爱生活</a>
+				</li>
+				<li>
+					<a href="/" target="_blank" title="碎言碎语">碎言碎语</a>
+				</li>
+				<li>
+					<a href="/" target="_blank" title="HTML5业界">业界</a>
+				</li>
+				<li>
+					<a href="/" target="_blank" title="作品展示">作品展示</a>
+				</li>
+				<li>
+					<a href="/" target="_blank" title="JS 实例代码演示">精致人生</a>
+				</li>
+				<li>
+					<a href="/" target="_blank" title="留言版">留言版</a>
+				</li>
+			</ul>
+		</div>
+		<!--nav end-->
+		<div class="lace_hd_ft"></div>
+		<article>
+			<div class="blog">
+				<h3><p>最新文章<span>New Blog</span></p></h3>
+
+				<main class="col-md-8">
+					{% block main %} {% endblock main %}
+				</main>
+				<aside class="col-md-4">
+					{% block toc %} {% endblock toc %}
+				</aside>
+
+			</div>
+
+			<aside>
+				<img src="{% static 'blog/images/about.png' %}" class="about">
+				<div class="vcard">
+					<p class="fn">姓名：马草原</p>
+					<p class="nickname">网名：淡雅慕</p>
+					<p class="url">主页：ma.suixin.kim</p>
+				</div>
+				<h2>博客分类</h2> {% get_categories as category_list %}
+				<ul>
+					{% for category in category_list %}
+					<li>
+						<a href="{% url 'blog:category' category.pk %}">{{ category.name }} 
+						<span class="post-count">({{ category.num_posts }})</span></a>
+					</li>
+					{% empty %} 暂无分类！ {% endfor %}
+				</ul>
+
+				<h2>近期文章</h2> {% get_recent_posts as recent_post_list %}
+				<ul>
+					{% for post in recent_post_list %}
+					<li>
+						<a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+					</li>
+					{% empty %} 暂无文章！ {% endfor %}
+				</ul>
+
+				<h2>文章归档</h2> {% archives as date_list %}
+				<ul>
+					{% for date in date_list %}
+					<li>
+						<a href="{% url 'blog:archives' date.year date.month %}">{{ date.year }} 年 {{ date.month }} 月</a>
+					</li>
+					{% empty %} 暂无归档！ {% endfor %}
+				</ul>
+				<h2>友情链接</h2>
+				<ul>
+					<li>
+						<a href="ma.suixin.kim">马草原个人博客</a>
+					</li>
+				</ul>
+
+			</aside>
+		</article>
+		<div class="blank"></div>
+		<div id="copright">Design by Prairie</div>
+		<script src="{% static 'blog/js/silder.js' %}"></script>
+	</body>
+
+</html>
